@@ -1,45 +1,56 @@
-import React from 'react';
-import { Text, View, TouchableOpacity, Image  } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { theme, text } from '../styles';
-import arrow from '../assets/arrow.png';
-import draw from '../assets/draw.png';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, ActivityIndicator } from 'react-native';
+import { OfertaCard, SearchInput } from '../components';
+import { colors, theme } from '../styles';
+import { api } from '../services';
 
+interface Oferta {
+    id: Number;
+    titulo: string;
+    imgUrl?: string;
+    preco: string;
+    sub_titulo: string
+    categorias: Categoria[] 
+}
 
+interface Categoria {
+    id: Number;
+    nome: string;
+    descricao: string;
+}
 
-const Ofertas: React.FC = () => {
-    
-    const navigation = useNavigation();
+const Catalog: React.FC = () => {
+
+    const [search, setSearch] = useState("");
+    const [ofertas, setOfertas] = useState<Oferta[]>([]);
+    const [loading, setLoading] = useState(false);
+
+    async function fillOfertas() {
+        setLoading(true);
+        const res = await api.get('/ofertas?page=0&linesPerPage=12&direction=ASC&orderBy=id');
+        setOfertas(res.data.content);
+        setLoading(false);
+    }
+
+    useEffect(() => {
+        fillOfertas();
+    }, []);
+
+    const data = search.length > 0
+        ? ofertas.filter(oferta => oferta.titulo.toLowerCase().includes(search.toLowerCase()))
+        : ofertas;
 
     return (
-        <View style={theme.container}>
-            <View style={theme.card}>
-                <View style={theme.draw}>
-                    <Image source={draw} />
-                </View>
-                <View style={theme.textContainer}>
-                    <Text style={text.bold}>
-                        Conheça o melhor catálogo de produtos
-                    </Text>
-                    <Text style={text.regular}>
-                        Ajudaremos você a encontrar os melhores produtos disponíveis no mercado.
-                    </Text>
-                </View>
-                <TouchableOpacity
-                    style={theme.primaryButton}
-                    activeOpacity={0.8}
-                    onPress={() => navigation.navigate("Home")}
-                >
-                    <Text style={text.primaryText}>
-                        INICIE AGORA A SUA BUSCA
-                    </Text>
-                    <View style={theme.arrowContainer}>
-                        <Image source={arrow} />
-                    </View>
-                </TouchableOpacity>
-            </View>
-        </View>
+        <ScrollView contentContainerStyle={theme.scrollContainer}>
+            <SearchInput
+                placeholder="Titulo da Oferta"
+                search={search}
+                setSearch={setSearch}
+            />
+            { loading ? ( <ActivityIndicator size="large" color={colors.primary}/>) :
+                (data.map(oferta => <OfertaCard {...oferta} key={oferta.id} /> ))}
+        </ScrollView>
     )
 }
 
-export default Ofertas;
+export default Catalog;

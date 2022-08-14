@@ -14,6 +14,7 @@ const colors = {
     bluePill: "#407BFF61",
     red: "#DF5753",
     borderGray: "#E1E1E1",
+    subTitleGray: "#CCCCCC"
 }
 
 const nav = StyleSheet.create({
@@ -43,7 +44,6 @@ const nav = StyleSheet.create({
     option: {
         paddingVertical: 5,
         width: deviceWidth,
-
     },
     textActive: {
         fontWeight: "bold"
@@ -114,7 +114,7 @@ const theme = StyleSheet.create({
         justifyContent: "center"
     },
     //productCard
-    productCard: {
+    ofertaCard: {
         width: "100%",
         backgroundColor: colors.white,
         borderRadius: 10,
@@ -131,7 +131,7 @@ const theme = StyleSheet.create({
         elevation: 4
 
     },
-    productDescription: {
+    ofertaDescription: {
         width: "100%",
         padding: 20,
         borderTopColor: colors.lightGray,
@@ -141,7 +141,7 @@ const theme = StyleSheet.create({
         flexDirection: "row",
         marginTop: 10,
     },
-    productImg: {
+    ofertaImg: {
         width: 140,
         height: 140,
         margin: 16
@@ -404,16 +404,21 @@ const text = StyleSheet.create({
         color: colors.white,
         marginLeft: 20
     },
-    productName: {
+    ofertaName: {
         fontSize: 16,
         fontWeight: "bold"
+    },
+    ofertaSubTitulo: {
+        fontSize: 13,
+        fontWeight: "bold",
+        color: colors.subTitleGray
     },
     currency: {
         fontSize: 16,
         fontWeight: "400",
         color: colors.mediumGray
     },
-    productPrice: {
+    ofertaPrice: {
         fontSize: 30,
         color: colors.primary,
         fontWeight: "bold"
@@ -523,5 +528,24 @@ const admin = StyleSheet.create({
     }
 });
 
+const tag = StyleSheet.create({
+    container: {
+        flexDirection: "row",
+        paddingVertical: 10,
+        alignItems: "center",
+        justifyContent: "space-evenly"
+    },
+    containerItem: {
+        fontWeight: "bold",
+        borderRadius: 8
+    },
+    containerText: {
+        fontSize: 13,
+        paddingHorizontal: 5,
+        paddingVertical: 3,
+        fontWeight: "bold",
+        color: colors.subTitleGray
+    }
+})
 
-export { colors, theme, text, nav, tabbar, admin };
+export { colors, theme, text, nav, tabbar, admin, tag };

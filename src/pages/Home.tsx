@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, Image  } from 'react-native';
+import { Text, View, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { theme, text } from '../styles';
 import arrow from '../assets/arrow.png';
@@ -8,7 +8,7 @@ import draw from '../assets/draw.png';
 
 
 const Home: React.FC = () => {
-    
+
     const navigation = useNavigation();
 
     return (
