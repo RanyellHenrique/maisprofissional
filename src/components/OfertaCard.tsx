@@ -21,14 +21,14 @@ interface Categoria {
     nome: string;
     descricao: string;
 }
-const ProductCard: React.FC<OfertaProps> = ({ id, titulo, imgUrl = imagem, preco, sub_titulo, categorias }) => {
+const OfertaCard: React.FC<OfertaProps> = ({ id, titulo, imgUrl = imagem, preco, sub_titulo, categorias }) => {
 
     const navigation = useNavigation();
 
     return (
         <TouchableOpacity
             style={theme.ofertaCard}
-            onPress={() => navigation.navigate('Home', { id })}
+            onPress={() => navigation.navigate('OfertaDetails', { id })}
         >
             <Image source={{ uri: imgUrl }} style={theme.ofertaImg} />
             <View style={theme.ofertaDescription}>
@@ -58,4 +58,4 @@ const ProductCard: React.FC<OfertaProps> = ({ id, titulo, imgUrl = imagem, preco
     )
 }
 
-export default ProductCard;
+export default OfertaCard;

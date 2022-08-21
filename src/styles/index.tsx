@@ -194,16 +194,16 @@ const theme = StyleSheet.create({
         justifyContent: "space-around",
         padding: 20
     },
-    productImageContainer: {
+    ofertaImageContainer: {
         width: "100%",
         borderWidth: 1,
         borderColor: colors.lightGray,
         alignItems: "center",
         borderRadius: 20
     },
-    productImage: {
+    ofertaImage: {
         width: 220,
-        height: 220
+        height: 180
     },
     goBackContainer: {
         width: 290,
@@ -296,7 +296,7 @@ const theme = StyleSheet.create({
     formContainer: {
         width: deviceWidth,
         padding: 20
-    }, 
+    },
     formCard: {
         width: "100%",
         height: "90%",
@@ -430,13 +430,13 @@ const text = StyleSheet.create({
         color: colors.darkGray,
         marginLeft: 16
     },
-    productDetailsName: {
+    ofertaDetailsName: {
         fontSize: 30,
         fontWeight: "bold",
         marginTop: 10,
         color: colors.darkGray
     },
-    productDescription: {
+    ofertaDescription: {
         fontSize: 16,
         fontWeight: "400",
         color: colors.mediumGray
@@ -452,7 +452,7 @@ const text = StyleSheet.create({
         color: colors.white
     },
     addButtonText: {
-        color : colors.white,
+        color: colors.white,
         textTransform: "uppercase",
         fontWeight: "bold",
     },
@@ -508,7 +508,7 @@ const tabbar = StyleSheet.create({
         color: colors.mediumGray
     },
     pillTextActive: {
-        color : colors.primary
+        color: colors.primary
     }
 });
 
