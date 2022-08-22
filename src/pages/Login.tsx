@@ -23,7 +23,7 @@ const Login: React.FC = () => {
     const handleLogin = async () => {
        const data = await login(userInfo);
        setUserFetchData(data);
-       navigation.navigate("Ofertas");
+       navigation.navigate("Ofertas", { screen: 'Ofertas' });
     }
 
     return (

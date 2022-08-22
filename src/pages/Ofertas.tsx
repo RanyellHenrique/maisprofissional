@@ -19,7 +19,7 @@ interface Categoria {
     descricao: string;
 }
 
-const Catalog: React.FC = () => {
+const Ofertas: React.FC = () => {
 
     const [search, setSearch] = useState("");
     const [ofertas, setOfertas] = useState<Oferta[]>([]);
@@ -53,4 +53,4 @@ const Catalog: React.FC = () => {
     )
 }
 
-export default Catalog;
+export default Ofertas;
