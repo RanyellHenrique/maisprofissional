@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, } from 'react';
 import { Text, View, TouchableOpacity, Image, TextInput, ActivityIndicator, Alert } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { TextInputMask } from 'react-native-masked-text';
 import { colors, text, theme } from '../styles';
 import arrow from '../assets/leftArrow.png';
 import { createProposta } from '../services';
@@ -20,6 +21,7 @@ const FormProposta: React.FC<Props> = ({ route: { params: { id, titulo } } }) =>
 
     const [loading, setLoading] = useState(false);
     const [edit, setEdit] = useState(false);
+
     const [proposta, setProposta] = useState({
         id_oferta: id,
         descricao: "",
@@ -36,11 +38,13 @@ const FormProposta: React.FC<Props> = ({ route: { params: { id, titulo } } }) =>
         setLoading(true);
         const data = { ...proposta }
         try {
+            console.log(data);
             await createProposta(data);
             Toast.showSuccess("Proposta criada com sucesso!");
             setBlankOferta();
         } catch (res) {
             Toast.show("Erro ao salvar");
+            console.log(res);
         }
         setLoading(false);
     }
@@ -65,12 +69,33 @@ const FormProposta: React.FC<Props> = ({ route: { params: { id, titulo } } }) =>
                                 <Image source={arrow} />
                                 <Text style={text.goBackText}>Voltar</Text>
                             </TouchableOpacity>
+                            <Text style={text.ofertaDetailsName}>{titulo}</Text>
                             <TextInput
                                 multiline
                                 placeholder="Descrição"
                                 style={theme.textArea}
                                 value={proposta.descricao}
                                 onChangeText={(e) => setProposta({ ...proposta, descricao: e })}
+                            />
+                            <TextInputMask
+                                type={"datetime"}
+                                options={{
+                                    format: "yyyy-mm-dd"
+                                }}
+                                placeholder="Data Inicio"
+                                style={theme.formInput}
+                                value={proposta.data_inicio}
+                                onChangeText={(e) => setProposta({ ...proposta, data_inicio: e })}
+                            />
+                            <TextInputMask
+                                type={"datetime"}
+                                options={{
+                                    format: "yyyy-mm-dd"
+                                }}
+                                placeholder="Data Fim"
+                                style={theme.formInput}
+                                value={proposta.data_fim}
+                                onChangeText={(e) => setProposta({ ...proposta, data_fim: e })}
                             />
                             <View style={theme.buttonContainer}>
                                 <TouchableOpacity
