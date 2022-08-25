@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { HeaderText, NavBar } from '../components';
-import { Home, Ofertas, Login, OfertaDetails, Trabalhadores, OfertaForm } from '../pages';
+import { Home, Ofertas, Login, OfertaDetails, Trabalhadores, OfertaForm, PropostaForm } from '../pages';
 import { colors } from '../styles';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -62,10 +62,7 @@ const PropostasStack = createNativeStackNavigator();
 const PropostasScreen: React.FC = () => {
     return (
         <PropostasStack.Navigator screenOptions={{ headerShown: false }}>
-            <PropostasStack.Screen name="Ofertas" component={Ofertas} />
-            <PropostasStack.Screen name="OfertaDetails" component={OfertaDetails} />
-            <PropostasStack.Screen name="Home" component={Home} />
-            <PropostasStack.Screen name="Login" component={Login} />
+            <PropostasStack.Screen name="PropostaForm" component={PropostaForm} />
         </PropostasStack.Navigator>
     );
 }

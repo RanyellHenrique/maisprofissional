@@ -26,3 +26,14 @@ export const createOferta = async (data: object) => {
     })
     return res;
 }
+
+
+export const createProposta = async (data: object) => {
+    const authToken = await userToken();
+    const res = api.post('/propostas', data, {
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+        }
+    })
+    return res;
+}

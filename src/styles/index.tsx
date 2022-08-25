@@ -199,7 +199,6 @@ const theme = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        justifyContent: "space-around",
         padding: 20
     },
     ofertaImageContainer: {
@@ -267,6 +266,12 @@ const theme = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-around",
         paddingBottom: 40
+    },
+    buttonContainerOferta: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-around",
+        paddingBottom: 30
     },
     deleteBtn: {
         width: "48%",

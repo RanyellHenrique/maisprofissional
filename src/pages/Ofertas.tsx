@@ -39,7 +39,7 @@ const Ofertas: React.FC = () => {
     const [ofertas, setOfertas] = useState<Oferta[]>([]);
     const [loading, setLoading] = useState(false);
     const navigation = useNavigation();
-    const { setState, state } = useContext(UserContext);
+    const { state } = useContext(UserContext);
 
 
     async function fillOfertas() {
