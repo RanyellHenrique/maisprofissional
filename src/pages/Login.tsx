@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
 import { text, theme } from '../styles';
 import eyesOpened from '../assets/eyes-opened.png';
@@ -6,24 +6,22 @@ import eyesClosed from '../assets/eyes-closed.png';
 import arrow from '../assets/arrow.png';
 import { login } from '../services/auth';
 import { useNavigation } from '@react-navigation/native';
-
-
+import { UserContext } from '../context';
 
 const Login: React.FC = () => {
 
     const [hidePassword, setHidePassword] = useState(true);
-    const [userInfo, setUserInfo] = useState({
-        username: "",
-        password: ""
-    });
+    const [userInfo, setUserInfo] = useState({ username: "", password: "" });
     const [userFetchData, setUserFetchData] = useState({});
-
     const navigation = useNavigation();
+    const { setState } = useContext(UserContext);
+
 
     const handleLogin = async () => {
-       const data = await login(userInfo);
-       setUserFetchData(data);
-       navigation.navigate("Ofertas", { screen: 'Ofertas' });
+        const data = await login(userInfo);
+        setUserFetchData(data);
+        setState({ ...data });
+        navigation.navigate("Ofertas", { screen: 'Ofertas' });
     }
 
     return (
@@ -68,7 +66,7 @@ const Login: React.FC = () => {
                     </View>
                 </View>
                 <TouchableOpacity
-                    style={theme.primaryButton}
+                    style={theme.primaryLoginButton}
                     activeOpacity={0.8}
                     onPress={() => handleLogin()}
                 >

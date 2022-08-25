@@ -11,7 +11,7 @@ interface CategoriaProps {
 
 const CategoriaTag: React.FC<CategoriaProps> = ({ nome }) => {
     return (
-        <View style={[tag.containerItem, { backgroundColor:getColor() }]}>
+        <View style={tag.containerItem}>
             <Text style={tag.containerText}>
                 {nome}
             </Text>

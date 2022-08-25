@@ -16,3 +16,13 @@ export const userToken = async () => {
     const token = await AsyncStorage.getItem("@token");
     return token;
 }
+
+export const createOferta = async (data: object) => {
+    const authToken = await userToken();
+    const res = api.post('/ofertas', data, {
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+        }
+    })
+    return res;
+}

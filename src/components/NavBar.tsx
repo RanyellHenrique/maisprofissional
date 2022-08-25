@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Text, View, Image, TouchableOpacity, } from 'react-native';
-import { TouchableOpacity as Touchable } from 'react-native-gesture-handler'
 import { useNavigation, useRoute } from '@react-navigation/native';
 import menu from '../assets/menu.png';
 import { nav, text } from '../styles';
 import { doLogout, isAuthenticated } from '../services/auth';
+import { UserContext } from '../context';
 
 
 const NavBar: React.FC = () => {
@@ -13,6 +13,7 @@ const NavBar: React.FC = () => {
     const [authenticated, setAuthenticated] = useState(false);
     const navigation = useNavigation();
     const route = useRoute();
+    const { setState, state } = useContext(UserContext);
 
 
     const navigate = (path: any) => {
@@ -31,12 +32,13 @@ const NavBar: React.FC = () => {
 
     const logout = () => {
         doLogout();
-        navigation.navigate("Login");
+        navigation.navigate('Perfil', { screen: 'Login' });
+        setState({ email: "", isLogado: false, perfil: "", id: 0 })
     }
 
     useEffect(() => {
         logged();
-    }, []);
+    }, [state]);
 
     return (
         <>

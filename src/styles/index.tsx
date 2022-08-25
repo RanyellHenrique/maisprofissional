@@ -96,6 +96,14 @@ const theme = StyleSheet.create({
         paddingHorizontal: 20
     },
     primaryButton: {
+        height: 50,
+        backgroundColor: colors.primary,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        borderRadius: 10
+    },
+    primaryLoginButton: {
         width: 290,
         height: 50,
         backgroundColor: colors.primary,
@@ -257,7 +265,8 @@ const theme = StyleSheet.create({
     buttonContainer: {
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-around"
+        justifyContent: "space-around",
+        paddingBottom: 40
     },
     deleteBtn: {
         width: "48%",
@@ -295,7 +304,9 @@ const theme = StyleSheet.create({
     // Admin Product Form
     formContainer: {
         width: deviceWidth,
-        padding: 20
+        padding: 10,
+        height: deviceHeight - 30,
+        marginVertical: 10
     },
     formCard: {
         width: "100%",
@@ -312,7 +323,8 @@ const theme = StyleSheet.create({
         shadowRadius: 3.85,
         elevation: 4,
         alignItems: "center",
-        justifyContent: "space-around"
+        justifyContent: "space-around",
+        paddingTop: 60
     },
     modalContainer: {
         width: deviceWidth,
@@ -537,7 +549,8 @@ const tag = StyleSheet.create({
     },
     containerItem: {
         fontWeight: "bold",
-        borderRadius: 8
+        borderRadius: 8,
+        backgroundColor: "#0086b3"
     },
     containerText: {
         fontSize: 13,

@@ -1,5 +1,5 @@
 import { api, TOKEN } from './index';
-import jwtDecode, { JwtPayload } from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
 import queryString from 'query-string';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -10,11 +10,13 @@ interface AuthProps {
 
 interface JTWToken {
     authorities: string[];
+    user_name: string;
 }
 
 const trabalhador = "TRABALHADOR";
 const cliente = "CLIENTE";
 const admin = "ADMIN";
+
 
 export const login = async (userInfo: AuthProps) => {
     const data = queryString.stringify({ ...userInfo, grant_type: "password" });
@@ -26,7 +28,14 @@ export const login = async (userInfo: AuthProps) => {
     })
     const { access_token } = result.data;
     await setAsysncKeys("@token", access_token);
-    return result;
+    const payload = await parseJwt();
+
+    return {
+        email: payload.user_name,
+        isLogado: true,
+        perfil: payload.authorities[0],
+        id: result.data.userId
+    };
 }
 
 const setAsysncKeys = async (key: string, value: string) => {
