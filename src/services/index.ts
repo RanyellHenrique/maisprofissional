@@ -37,3 +37,23 @@ export const createProposta = async (data: object) => {
     })
     return res;
 }
+
+export const getPropostaByCliente = async () => {
+    const authToken = await userToken();
+    const res = api.get('/propostas/clientes', {
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+        }
+    })
+    return res;
+}
+
+export const getPropostaByTrabalhador = async () => {
+    const authToken = await userToken();
+    const res = api.get('/propostas/trabalhadores', {
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+        }
+    })
+    return res;
+}

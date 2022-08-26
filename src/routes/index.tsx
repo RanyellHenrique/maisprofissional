@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { HeaderText, NavBar } from '../components';
-import { Home, Ofertas, Login, OfertaDetails, Trabalhadores, OfertaForm, PropostaForm } from '../pages';
+import { Home, Ofertas, Login, OfertaDetails, Trabalhadores, OfertaForm, PropostaForm, Propostas } from '../pages';
 import { colors } from '../styles';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -10,6 +10,8 @@ import { UserContext } from '../context';
 const Tab = createBottomTabNavigator();
 
 const Routes: React.FC = () => {
+
+    const { state } = useContext(UserContext);
 
     return (
         <Tab.Navigator
@@ -26,22 +28,24 @@ const Routes: React.FC = () => {
 
                     if (route.name === 'Ofertas') {
                         iconName = focused
-                            ? 'md-briefcase' : 'md-briefcase'
+                            ? 'md-briefcase' : 'md-briefcase-outline'
                     } else if (route.name === 'Propostas') {
-                        iconName = focused ? 'md-people' : 'md-people';
+                        iconName = focused ? 'md-people' : 'md-people-outline';
                     } else if (route.name === 'Trabalhadores') {
-                        iconName = focused ? 'md-construct' : 'md-construct';
+                        iconName = focused ? 'md-construct' : 'md-construct-outline';
                     } else if (route.name === 'Perfil') {
-                        iconName = focused ? 'ios-person' : 'ios-person';
+                        iconName = focused ? 'ios-person' : 'ios-person-outline';
                     }
                     return <Ionicons name={iconName} size={size} color={color} />;
                 }
             })}
         >
+            <Tab.Screen name="Perfil" component={UsuariosScreen} />
             <Tab.Screen name="Ofertas" component={OfertasScreen} />
             <Tab.Screen name="Trabalhadores" component={TrabalhadoresScreen} />
-            <Tab.Screen name="Propostas" component={PropostasScreen} />
-            <Tab.Screen name="Perfil" component={UsuariosScreen} />
+            {state.isLogado &&
+                <Tab.Screen name="Propostas" component={PropostasScreen} />
+            }
         </Tab.Navigator>
     )
 }
@@ -63,6 +67,7 @@ const PropostasStack = createNativeStackNavigator();
 const PropostasScreen: React.FC = () => {
     return (
         <PropostasStack.Navigator screenOptions={{ headerShown: false }}>
+            <PropostasStack.Screen name="PropostasList" component={Propostas} />
             <PropostasStack.Screen name="PropostaForm" component={PropostaForm} />
         </PropostasStack.Navigator>
     );

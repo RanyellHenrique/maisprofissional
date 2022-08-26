@@ -397,6 +397,13 @@ const theme = StyleSheet.create({
         borderRadius: 10,
         alignItems: "center",
         justifyContent: "center"
+    },
+    propostaDescriptionContainer: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    propostaDescription: {
+        marginLeft: '2%'
     }
 });
 

@@ -38,13 +38,11 @@ const FormProposta: React.FC<Props> = ({ route: { params: { id, titulo } } }) =>
         setLoading(true);
         const data = { ...proposta }
         try {
-            console.log(data);
             await createProposta(data);
             Toast.showSuccess("Proposta criada com sucesso!");
             setBlankOferta();
         } catch (res) {
             Toast.show("Erro ao salvar");
-            console.log(res);
         }
         setLoading(false);
     }
@@ -65,7 +63,7 @@ const FormProposta: React.FC<Props> = ({ route: { params: { id, titulo } } }) =>
                 : (
                     <View style={theme.formCard}>
                         <View style={{ width: "100%" }}>
-                            <TouchableOpacity onPress={() => navigation.navigate('Ofertas', { screen: 'Ofertas' })} style={theme.goBackContainer}>
+                            <TouchableOpacity onPress={() => navigation.navigate('PropostasList', { screen: 'Propostas' })} style={theme.goBackContainer}>
                                 <Image source={arrow} />
                                 <Text style={text.goBackText}>Voltar</Text>
                             </TouchableOpacity>
