@@ -6,3 +6,4 @@ export { default as Trabalhadores } from './Trabalhadores';
 export { default as OfertaForm } from './OfertaForm';
 export { default as PropostaForm } from './PropostaForm';
 export { default as Propostas } from './Propostas';
+export { default as PropostaDetails } from './PropostaDetails';

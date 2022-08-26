@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { text, theme } from '../styles';
 import { TextInputMask } from 'react-native-masked-text';
@@ -31,14 +31,14 @@ interface OfertaProps {
 }
 
 
-const OfertaCard: React.FC<PropostaProps> = ({ id, estado, data_fim, data_inicio, trabalhador, oferta }) => {
+const PropostaCard: React.FC<PropostaProps> = ({ id, estado, trabalhador, oferta }) => {
 
     const navigation = useNavigation();
 
     return (
         <TouchableOpacity
             style={theme.ofertaCard}
-            onPress={() => navigation.navigate('OfertaDetails', { id })}
+            onPress={() => navigation.navigate('PropostaDetails', { id })}
         >
             <View style={theme.ofertaDescription}>
                 <View style={theme.propostaDescriptionContainer}>
@@ -70,4 +70,4 @@ const OfertaCard: React.FC<PropostaProps> = ({ id, estado, data_fim, data_inicio
     )
 }
 
-export default OfertaCard;
+export default PropostaCard;

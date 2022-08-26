@@ -57,3 +57,13 @@ export const getPropostaByTrabalhador = async () => {
     })
     return res;
 }
+
+export const getPropostaById = async (id: number) => {
+    const authToken = await userToken();
+    const res = api.get(`/propostas/${id}`, {
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+        }
+    })
+    return res;
+}

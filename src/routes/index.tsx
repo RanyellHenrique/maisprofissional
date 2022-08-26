@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { HeaderText, NavBar } from '../components';
-import { Home, Ofertas, Login, OfertaDetails, Trabalhadores, OfertaForm, PropostaForm, Propostas } from '../pages';
+import { Home, Ofertas, Login, OfertaDetails, Trabalhadores, OfertaForm, PropostaForm, Propostas, PropostaDetails } from '../pages';
 import { colors } from '../styles';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -69,6 +69,7 @@ const PropostasScreen: React.FC = () => {
         <PropostasStack.Navigator screenOptions={{ headerShown: false }}>
             <PropostasStack.Screen name="PropostasList" component={Propostas} />
             <PropostasStack.Screen name="PropostaForm" component={PropostaForm} />
+            <PropostasStack.Screen name="PropostaDetails" component={PropostaDetails} />
         </PropostasStack.Navigator>
     );
 }
