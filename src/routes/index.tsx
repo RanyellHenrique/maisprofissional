@@ -15,6 +15,7 @@ const Routes: React.FC = () => {
         <Tab.Navigator
             screenOptions={({ route }) => ({
                 headerTitle: "",
+                tabBarHideOnKeyboard: true,
                 headerStyle: {
                     backgroundColor: colors.primary
                 },

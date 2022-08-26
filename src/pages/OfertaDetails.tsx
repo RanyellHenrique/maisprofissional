@@ -70,7 +70,7 @@ const OfertaDetails: React.FC<Props> = ({ route: { params: { id } } }) => {
                                 <View style={theme.buttonContainerOferta}>
                                     <TouchableOpacity
                                         style={theme.saveBtn}
-                                        onPress={() => navigation.navigate("Propostas", { screen: "PropostaForm", id: id, titulo: oferta.titulo })}
+                                        onPress={() => navigation.navigate("Propostas", { screen: "PropostaForm",params: {id: id, titulo: oferta.titulo }})}
                                     >
                                         <Text style={text.saveText}>REALIZAR PROPOSTA</Text>
                                     </TouchableOpacity>
