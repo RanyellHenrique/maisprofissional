@@ -67,3 +67,13 @@ export const getPropostaById = async (id: number) => {
     })
     return res;
 }
+
+export const updateProposta = async (data: object, id: number) => {
+    const authToken = await userToken();
+    const res = api.put(`/propostas/${id}`, data, {
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+        }
+    })
+    return res;
+}
