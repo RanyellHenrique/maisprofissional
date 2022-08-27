@@ -119,7 +119,7 @@ const FormOferta: React.FC = () => {
                 : (
                     <View style={theme.formCard}>
                         <View style={{ width: "100%" }}>
-                            <TouchableOpacity onPress={() => navigation.navigate('Ofertas', { screen: 'Ofertas' })} style={theme.goBackContainer}>
+                            <TouchableOpacity onPress={() => navigation.navigate('OfertasList', { screen: 'Ofertas' })} style={theme.goBackContainer}>
                                 <Image source={arrow} />
                                 <Text style={text.goBackText}>Voltar</Text>
                             </TouchableOpacity>

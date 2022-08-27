@@ -77,3 +77,13 @@ export const updateProposta = async (data: object, id: number) => {
     })
     return res;
 }
+
+export const updateAvaliacaoTrabalhador = async (data: object, id: number) => {
+    const authToken = await userToken();
+    const res = api.put(`/propostas/${id}/avaliacoes`, data, {
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+        }
+    })
+    return res;
+}

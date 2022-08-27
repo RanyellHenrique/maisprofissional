@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Text, View, ActivityIndicator, TouchableOpacity, Image, ScrollView, Alert, TextInput } from 'react-native';
 import Toast from 'react-native-tiny-toast';
-import { getPropostaById, updateProposta } from '../services';
+import { getPropostaById, updateProposta, updateAvaliacaoTrabalhador } from '../services';
 import arrow from '../assets/leftArrow.png';
 import { colors, text, theme } from '../styles';
 import { useNavigation } from '@react-navigation/native';
@@ -10,6 +10,8 @@ import { UserContext } from '../context';
 import { Avatar } from 'react-native-paper';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import StarRating from 'react-native-star-rating';
+
 
 
 const imagem = 'https://www.monitoratec.com.br/blog/wp-content/uploads/2020/08/AdobeStock_310133736-740x416.jpeg';
@@ -23,6 +25,7 @@ type Props = {
 };
 
 const enumEstados = [{ "nome": "Recusada" }, { "nome": "Aprovada" }]
+const enumEstadosfinalizadas = [{ "nome": "Cancelada" }, { "nome": "Concluida" }]
 
 const PropostaDetails: React.FC<Props> = ({ route: { params: { id } } }) => {
 
@@ -64,17 +67,25 @@ const PropostaDetails: React.FC<Props> = ({ route: { params: { id } } }) => {
         descricao: null,
         data_inicio: null,
         data_fim: null,
-        id: id
+        id: id,
+        analise_descricao: null,
+        avaliacao: {
+            id: null,
+            descricao: null,
+            nota: null
+        }
     });
-
     const [avaliacaoProposta, setAvaliacaoProposta] = useState({
         analise_descricao: "",
         estado: ""
     });
+    const [avaliacaoTrabalhador, setAvaliacaoTrabalhador] = useState({
+        descricao: "",
+        nota: 0
+    });
 
     const onSelectedEstadosChange = (estados: string[]) => {
         setEstadoSelected(estados);
-        console.log(estadosSelected.map(nome => { return { nome } }).shift()?.nome.toUpperCase());
     };
 
     const loadingPropostaData = async () => {
@@ -86,26 +97,61 @@ const PropostaDetails: React.FC<Props> = ({ route: { params: { id } } }) => {
 
     const handleSave = () => {
         updateNewProposta();
+        loadingPropostaData();
+    }
+
+    const handleSaveAvaliacao = () => {
+        createAvaliacao();
+        loadingPropostaData();
+    }
+
+    const onChangeAvaliacao = (nota: number) => {
+        setAvaliacaoTrabalhador({ ...avaliacaoTrabalhador, nota });
+    };
+
+    const createAvaliacao = async () => {
+        setLoading(true);
+        const data = {
+            descricao: avaliacaoTrabalhador.descricao,
+            nota: avaliacaoTrabalhador.nota,
+            id_oferta: proposta.oferta.id,
+        }
+        try {
+            await updateAvaliacaoTrabalhador(data, id);
+            Toast.showSuccess("Avaliação realizada com sucesso!");
+            setBlankOferta();
+        } catch (res) {
+            Toast.show("Erro ao avaliar");
+        }
+        setLoading(false);
     }
 
     const updateNewProposta = async () => {
         setLoading(true);
         const data = {
-            ...avaliacaoProposta,
-            estado: estadosSelected.map(nome => { return { nome } }).shift()?.nome.toUpperCase(),
+            analise_descricao: getDescricaoAvaliacao(),
+            estado: getEstado(),
             id_oferta: proposta.oferta.id,
             id_trabalhador: proposta.trabalhador.id
         }
-        console.log(data);
         try {
             await updateProposta(data, id);
             Toast.showSuccess("Proposta avaliada com sucesso!");
             setBlankOferta();
         } catch (res) {
             Toast.show("Erro ao avaliar");
-            console.log(res);
         }
         setLoading(false);
+    }
+
+    const getEstado = () => {
+        return estadosSelected.map(nome => { return { nome } }).shift()?.nome.toUpperCase();
+    }
+
+    const getDescricaoAvaliacao = () => {
+        return proposta.estado == "ABERTA" ?
+            avaliacaoProposta.analise_descricao :
+            proposta.analise_descricao;
     }
 
     const setBlankOferta = () => {
@@ -113,6 +159,14 @@ const PropostaDetails: React.FC<Props> = ({ route: { params: { id } } }) => {
             analise_descricao: "",
             estado: ""
         });
+    }
+
+    const isClienteAndNotContainsEstados = () => {
+        return state.perfil == "CLIENTE" && proposta.estado != "CONCLUIDA" && proposta.estado != "CANCELADA";
+    }
+
+    const presentFormAvaliacaoProposta = () => {
+        return state.perfil == "CLIENTE" && proposta.estado == "CONCLUIDA" && proposta.avaliacao === null;
     }
 
     useEffect(() => {
@@ -141,7 +195,7 @@ const PropostaDetails: React.FC<Props> = ({ route: { params: { id } } }) => {
                                 <View style={[theme.propostaDescriptionContainer, { marginBottom: "2%" }]}>
                                     <Avatar.Image size={50} source={{ uri: imagem }} />
                                     <View style={theme.propostaDescription}>
-                                        <Text>Nome: {proposta.oferta.cliente.nome}</Text>
+                                        <Text>Empresa: {proposta.oferta.cliente.nome}</Text>
                                         <Text>Telefone: {proposta.oferta.cliente.telefone}</Text>
                                         <Text>{proposta.oferta.cliente.endereco.localidade} - {proposta.oferta.cliente.endereco.uf}</Text>
                                     </View>
@@ -160,68 +214,138 @@ const PropostaDetails: React.FC<Props> = ({ route: { params: { id } } }) => {
                                         <Text>{proposta.trabalhador.endereco.localidade} - {proposta.trabalhador.endereco.uf}</Text>
                                     </View>
                                 </View>
-                                <Text>Data Fim: {proposta.data_fim}</Text>
-                                <Text>Data Inicio: {proposta.data_inicio}</Text>
-                                <Text>Estado: {proposta.estado}</Text>
-                                <Text>Descrição: {proposta.descricao}</Text>
-                            </View>
-                            <SectionedMultiSelect
-                                items={enumEstados}
-                                IconRenderer={Icon}
-                                uniqueKey="nome"
-                                searchPlaceholderText="Buscar estado"
-                                confirmText="Confirmar"
-                                displayKey="nome"
-                                selectText="Avalie a proposta"
-                                showDropDowns={true}
-                                onSelectedItemsChange={onSelectedEstadosChange}
-                                single
-                                selectedItems={estadosSelected}
-                                styles={{
-                                    selectedItemText: { color: colors.primary },
-                                    selectToggleText: { color: colors.mediumGray },
-                                    button: { backgroundColor: colors.primary },
-                                    itemText: { color: colors.mediumGray }
+                                <Text style={text.ofertaDescription}>Data Fim: {proposta.data_fim}</Text>
+                                <Text style={text.ofertaDescription}>Data Inicio: {proposta.data_inicio}</Text>
+                                <Text style={text.ofertaDescription}>Estado: {proposta.estado}</Text>
+                                <Text style={text.ofertaDescription}>Descrição: {proposta.descricao}</Text>
+                                {proposta.analise_descricao &&
+                                    <Text style={text.ofertaDescription}>Descrição da analise: {proposta.analise_descricao}</Text>
+                                }
+                                {
+                                    proposta.avaliacao &&
+                                    <>
+                                        <Text style={text.ofertaDetailsName}>Avalição</Text>
+                                        <StarRating
+                                            disabled={true}
+                                            maxStars={5}
+                                            rating={proposta.avaliacao.nota || 0}
+                                        />
+                                        <Text style={text.ofertaDescription}>Descrição: {proposta.avaliacao.descricao}</Text>
 
-                                }}
-                            />
-                            <TextInput
-                                multiline
-                                placeholder="Analise Proposta"
-                                style={theme.textArea}
-                                value={avaliacaoProposta.analise_descricao}
-                                onChangeText={(e) => setAvaliacaoProposta({ ...avaliacaoProposta, analise_descricao: e })}
-                            />
-                            <View style={theme.buttonContainer}>
-                                <TouchableOpacity
-                                    style={theme.deleteBtn}
-                                    onPress={() => {
-                                        Alert.alert(
-                                            "Deseja Cancelar?",
-                                            "Os dados inseridos não serão salvos",
-                                            [
-                                                {
-                                                    text: "Voltar",
-                                                    style: "cancel"
-                                                },
-                                                {
-                                                    text: "Confirmar",
-                                                    onPress: () => navigation.navigate('Ofertas', { screen: 'Ofertas' }),
-                                                    style: "default"
-                                                }
-                                            ]
-                                        )
-                                    }}
-                                >
-                                    <Text style={text.deleteText}>Cancelar</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={theme.saveBtn}
-                                    onPress={() => handleSave()}
-                                >
-                                    <Text style={text.saveText}>Salvar</Text>
-                                </TouchableOpacity>
+                                    </>
+                                }
                             </View>
+                            {isClienteAndNotContainsEstados() &&
+                                <>
+                                    <SectionedMultiSelect
+                                        items={proposta.estado == "ABERTA" ? enumEstados : enumEstadosfinalizadas}
+                                        IconRenderer={Icon}
+                                        uniqueKey="nome"
+                                        searchPlaceholderText="Buscar estado"
+                                        confirmText="Confirmar"
+                                        displayKey="nome"
+                                        selectText="Avalie a proposta"
+                                        showDropDowns={true}
+                                        onSelectedItemsChange={onSelectedEstadosChange}
+                                        single
+                                        selectedItems={estadosSelected}
+                                        styles={{
+                                            selectedItemText: { color: colors.primary },
+                                            selectToggleText: { color: colors.mediumGray },
+                                            button: { backgroundColor: colors.primary },
+                                            itemText: { color: colors.mediumGray }
+
+                                        }}
+                                    />
+                                    {proposta.estado == "ABERTA" &&
+                                        <TextInput
+                                            multiline
+                                            placeholder="Analise Proposta"
+                                            style={theme.textArea}
+                                            value={avaliacaoProposta.analise_descricao}
+                                            onChangeText={(e) => setAvaliacaoProposta({ ...avaliacaoProposta, analise_descricao: e })}
+                                        />
+                                    }
+                                    <View style={theme.buttonContainer}>
+                                        <TouchableOpacity
+                                            style={theme.deleteBtn}
+                                            onPress={() => {
+                                                Alert.alert(
+                                                    "Deseja Cancelar?",
+                                                    "Os dados inseridos não serão salvos",
+                                                    [
+                                                        {
+                                                            text: "Voltar",
+                                                            style: "cancel"
+                                                        },
+                                                        {
+                                                            text: "Confirmar",
+                                                            onPress: () => navigation.navigate('PropostasList', { screen: 'Propostas' }),
+                                                            style: "default"
+                                                        }
+                                                    ]
+                                                )
+                                            }}
+                                        >
+                                            <Text style={text.deleteText}>Cancelar</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={theme.saveBtn}
+                                            onPress={() => handleSave()}
+                                        >
+                                            <Text style={text.saveText}>Salvar</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </>
+                            }
+                            {presentFormAvaliacaoProposta() &&
+                                <>
+                                    <Text style={[text.ofertaDetailsName, { marginBottom: "5%" }]}>Avalie o Trabalhador</Text>
+                                    <StarRating
+                                        disabled={false}
+                                        maxStars={5}
+                                        rating={avaliacaoTrabalhador.nota}
+                                        selectedStar={(rating) => onChangeAvaliacao(rating)}
+                                    />
+                                    <TextInput
+                                        multiline
+                                        placeholder="Avaliação do Trabalhador"
+                                        style={[theme.textArea]}
+                                        value={avaliacaoTrabalhador.descricao}
+                                        onChangeText={(e) => setAvaliacaoTrabalhador({ ...avaliacaoTrabalhador, descricao: e })}
+                                    />
+                                    <View style={theme.buttonContainer}>
+                                        <TouchableOpacity
+                                            style={theme.deleteBtn}
+                                            onPress={() => {
+                                                Alert.alert(
+                                                    "Deseja Cancelar?",
+                                                    "Os dados inseridos não serão salvos",
+                                                    [
+                                                        {
+                                                            text: "Voltar",
+                                                            style: "cancel"
+                                                        },
+                                                        {
+                                                            text: "Confirmar",
+                                                            onPress: () => navigation.navigate('PropostasList', { screen: 'Propostas' }),
+                                                            style: "default"
+                                                        }
+                                                    ]
+                                                )
+                                            }}
+                                        >
+                                            <Text style={text.deleteText}>Cancelar</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={theme.saveBtn}
+                                            onPress={() => handleSaveAvaliacao()}
+                                        >
+                                            <Text style={text.saveText}>Salvar</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </>
+                            }
                         </ScrollView>
                     )
             }

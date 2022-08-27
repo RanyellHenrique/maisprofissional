@@ -28,13 +28,13 @@ const Routes: React.FC = () => {
 
                     if (route.name === 'Ofertas') {
                         iconName = focused
-                            ? 'md-briefcase' : 'md-briefcase-outline'
+                            ? 'md-briefcase' : 'md-briefcase'
                     } else if (route.name === 'Propostas') {
-                        iconName = focused ? 'md-people' : 'md-people-outline';
+                        iconName = focused ? 'md-people' : 'md-people';
                     } else if (route.name === 'Trabalhadores') {
-                        iconName = focused ? 'md-construct' : 'md-construct-outline';
+                        iconName = focused ? 'md-construct' : 'md-construct';
                     } else if (route.name === 'Perfil') {
-                        iconName = focused ? 'ios-person' : 'ios-person-outline';
+                        iconName = focused ? 'ios-person' : 'ios-person';
                     }
                     return <Ionicons name={iconName} size={size} color={color} />;
                 }
@@ -55,7 +55,7 @@ const OfertasStack = createNativeStackNavigator();
 const OfertasScreen: React.FC = () => {
     return (
         <OfertasStack.Navigator screenOptions={{ headerShown: false }}>
-            <OfertasStack.Screen name="Ofertas" component={Ofertas} />
+            <OfertasStack.Screen name="OfertasList" component={Ofertas} />
             <OfertasStack.Screen name="OfertaDetails" component={OfertaDetails} />
             <OfertasStack.Screen name="OfertaForm" component={OfertaForm} />
         </OfertasStack.Navigator>
