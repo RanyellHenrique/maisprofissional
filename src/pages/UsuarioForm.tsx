@@ -58,7 +58,7 @@ const FormUsuario: React.FC = () => {
     const [categorias, setCategorias] = useState<Categoria[]>([]);
     const [categoriasSelected, setCategoriasSelected] = useState<Number[]>([]);
     const [estadosSelected, setEstadoSelected] = useState<string[]>([]);
-    const [usuarioSelected, setUsuarioSelected] = useState<string[]>(["trabalhador"]);
+    const [usuarioSelected, setUsuarioSelected] = useState<string[]>(["Trabalhador"]);
     const [hidePassword, setHidePassword] = useState(true);
     const navigation = useNavigation();
 
@@ -83,7 +83,7 @@ const FormUsuario: React.FC = () => {
 
 
     const handleSave = () => {
-        getTipoUsuario() == "trabalhador" ?
+        getTipoUsuario() == "Trabalhador" ?
             newTrabalhador() :
             newCliente();
     }
@@ -166,7 +166,7 @@ const FormUsuario: React.FC = () => {
         });
         setEstadoSelected([]);
         setCategoriasSelected([]);
-        setUsuarioSelected(["trabalhador"])
+        setUsuarioSelected(["Trabalhador"])
     }
 
     return (
@@ -231,7 +231,7 @@ const FormUsuario: React.FC = () => {
                                     />
                                 </TouchableOpacity>
                             </View>
-                            {getTipoUsuario() == "trabalhador" &&
+                            {getTipoUsuario() == "Trabalhador" &&
                                 <SectionedMultiSelect
                                     items={categorias}
                                     IconRenderer={Icon}
@@ -265,8 +265,8 @@ const FormUsuario: React.FC = () => {
                                 onChangeText={(e) => setUsuario({ ...usuario, telefone: e })}
                             />
                             <TextInputMask
-                                type={getTipoUsuario() == "trabalhador" ? "cpf" : "cnpj"}
-                                placeholder={getTipoUsuario() == "trabalhador" ? "cpf" : "cnpj"}
+                                type={getTipoUsuario() == "Trabalhador" ? "cpf" : "cnpj"}
+                                placeholder={getTipoUsuario() == "Trabalhador" ? "cpf" : "cnpj"}
                                 style={theme.formInput}
                                 value={usuario.documento}
                                 onChangeText={(e) => setUsuario({ ...usuario, documento: e })}
