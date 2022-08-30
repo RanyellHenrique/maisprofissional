@@ -250,6 +250,10 @@ const theme = StyleSheet.create({
         alignItems: "center",
         marginVertical: 25
     },
+    passwordGroupCreateAccount: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
     textInput: {
         width: 290,
         height: 50,
@@ -308,10 +312,9 @@ const theme = StyleSheet.create({
     buttonTextContainer: {},
     // Admin Product Form
     formContainer: {
-        width: deviceWidth,
         padding: 10,
-        height: deviceHeight - 30,
-        marginVertical: 10
+        height: deviceHeight,
+        width: deviceWidth,
     },
     formCard: {
         width: "100%",
@@ -404,6 +407,9 @@ const theme = StyleSheet.create({
     },
     propostaDescription: {
         marginLeft: '2%'
+    },
+    buttonCreateAccount: {
+        marginVertical: "5%"
     }
 });
 
@@ -427,6 +433,11 @@ const text = StyleSheet.create({
         textTransform: "uppercase",
         color: colors.white,
         marginLeft: 20
+    },
+    primaryTextAccount: {
+        fontSize: 16,
+        textTransform: "uppercase",
+        color: colors.white,
     },
     ofertaName: {
         fontSize: 16,

@@ -97,12 +97,10 @@ const PropostaDetails: React.FC<Props> = ({ route: { params: { id } } }) => {
 
     const handleSave = () => {
         updateNewProposta();
-        loadingPropostaData();
     }
 
     const handleSaveAvaliacao = () => {
         createAvaliacao();
-        loadingPropostaData();
     }
 
     const onChangeAvaliacao = (nota: number) => {
@@ -120,6 +118,7 @@ const PropostaDetails: React.FC<Props> = ({ route: { params: { id } } }) => {
             await updateAvaliacaoTrabalhador(data, id);
             Toast.showSuccess("Avaliação realizada com sucesso!");
             setBlankOferta();
+            loadingPropostaData();
         } catch (res) {
             Toast.show("Erro ao avaliar");
         }
@@ -138,6 +137,7 @@ const PropostaDetails: React.FC<Props> = ({ route: { params: { id } } }) => {
             await updateProposta(data, id);
             Toast.showSuccess("Proposta avaliada com sucesso!");
             setBlankOferta();
+            loadingPropostaData();
         } catch (res) {
             Toast.show("Erro ao avaliar");
         }
@@ -224,7 +224,7 @@ const PropostaDetails: React.FC<Props> = ({ route: { params: { id } } }) => {
                                 {
                                     proposta.avaliacao &&
                                     <>
-                                        <Text style={text.ofertaDetailsName}>Avalição</Text>
+                                        <Text style={text.ofertaDetailsName}>Avaliação</Text>
                                         <StarRating
                                             disabled={true}
                                             maxStars={5}

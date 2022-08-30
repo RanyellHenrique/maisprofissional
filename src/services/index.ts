@@ -87,3 +87,11 @@ export const updateAvaliacaoTrabalhador = async (data: object, id: number) => {
     })
     return res;
 }
+
+export const createTrabalhador = async (data: object) => {
+    return api.post('/trabalhadores', data);
+}
+
+export const createCliente = async (data: object) => {
+    return api.post('/clientes', data);
+}
