@@ -8,3 +8,4 @@ export {default as PropostaCard} from './PropostaCard';
 export {default as OfertasList} from './OfertasList';
 export {default as CategoriasFilter} from './CategoriasFilter';
 export {default as TrabalhadoresList} from './TrabalhadoresList';
+export {default as PropostasList} from './PropostasList';

@@ -1,5 +1,6 @@
 import axios, { Method } from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getSessionData } from './auth';
 
 const BASE_URL = 'http://10.0.0.108:8080/';
 
@@ -106,15 +107,20 @@ export const createCliente = async (data: object) => {
     return api.post('/clientes', data);
 }
 
-export const makePrivateRequest = ({ method = 'GET', url, data, params }: RequestParams) => {
-    return makeRequest({method, url, data, params});
+export const makePrivateRequest = async ({ method = 'GET', url, data, params,  }: RequestParams) => {
+    const authToken = await userToken();
+    const headers = {
+        'Authorization': `Bearer ${authToken}`
+    }
+    return makeRequest({method, url, data, params}, headers);
 }
 
-export const makeRequest = ({ method = 'GET', url, data, params }: RequestParams) => {
+export const makeRequest = ({ method = 'GET', url, data, params }: RequestParams, headers?: any) => {
     return axios({
         method,
         url: `${BASE_URL}${url}`,
         data,
-        params
-    });
+        params, 
+        headers
+     });
 }

@@ -13,10 +13,14 @@ interface JTWToken {
     user_name: string;
 }
 
-const trabalhador = "TRABALHADOR";
-const cliente = "CLIENTE";
-const admin = "ADMIN";
-
+type LoginResponse = {
+    access_token: string;
+    token_type: string;
+    expires_in: number;
+    scope: string;
+    userFirstName: string;
+    userId: number;
+}
 
 export const login = async (userInfo: AuthProps) => {
     const data = queryString.stringify({ ...userInfo, grant_type: "password" });
@@ -67,22 +71,9 @@ export const parseJwt = async () => {
     return jwtDecode<JTWToken>(await AsyncStorage.getItem("@token") || "");
 }
 
-export const isTrabalhador = async () => {
-    return (await parseJwt())
-        .authorities
-        .includes(trabalhador);
+export const getSessionData = async () => {
+    const sessionData =  await AsyncStorage.getItem('authData') ?? '{}';
+    const parseSessionData = JSON.parse(sessionData);
+    return parseSessionData as LoginResponse;
 }
-
-export const isCliente = async () => {
-    return (await parseJwt())
-        .authorities
-        .includes(cliente);
-}
-
-export const isAdmin = async () => {
-    return (await parseJwt())
-        .authorities
-        .includes(admin);
-}
-
 

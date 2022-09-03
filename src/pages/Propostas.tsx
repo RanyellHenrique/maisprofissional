@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { ScrollView, ActivityIndicator } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { PropostaCard, SearchInput } from '../components';
-import { colors, theme } from '../styles';
-import { getPropostaByCliente, getPropostaByTrabalhador } from '../services';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
+import { PropostasList } from '../components';
+import { ActivityIndicator } from 'react-native';
+import { colors } from '../styles';
 import { UserContext } from '../context';
 import { Oferta } from './Ofertas';
+import { makePrivateRequest } from '../services';
 
 
-interface Proposta {
+export interface Proposta {
     id: number;
     estado: string;
     descricao: string;
@@ -19,51 +18,78 @@ interface Proposta {
     oferta: Oferta;
 }
 
+interface PropostasPage {
+    content?: Proposta[];
+    totalPages: Number; 
+}
+
 interface Usuario {
     nome: string;
 }
 
 const Propostas: React.FC = () => {
 
-    const [search, setSearch] = useState("");
-    const [propostas, setPropostas] = useState<Proposta[]>([]);
+    const [propostas, setPropostas] = useState<PropostasPage>();
     const [loading, setLoading] = useState(false);
-    const navigation = useNavigation();
+    const [activePage, setActivePage] = useState(0);
     const { state } = useContext(UserContext);
 
+    const getTrabalhadores = useCallback(() => {
+        const propostasData = propostas?.content ?? [];
+        const params = {
+            size: 8,
+            page: activePage,
+        };
+        makePrivateRequest({ url: getPropostasUrl(), params })
+            .then(res => {
+                setPropostas({
+                    totalPages: res.data.totalPages,
+                    content: [...propostasData, ...res.data.content]
+                });
+            })
+            .catch(err => console.warn(err))
+            .finally(() => setLoading(false));
+    }, [activePage]);
 
-    async function fillOfertas() {
-        setLoading(true);
-        const res = await getPropostas();
-        setPropostas(res.data.content);
-        setLoading(false);
-    }
 
-    const getPropostas = async () => {
-        if (state.perfil == "TRABALHADOR") {
-            return await getPropostaByTrabalhador();
-        }
-        return await getPropostaByCliente();
-    }
+    const categoriaChange = () => {
+        setPropostas({
+            content: [],
+            totalPages: propostas?.totalPages ?? 0
+        });
+    };
 
     useEffect(() => {
-        fillOfertas();
-    }, []);
+        getTrabalhadores();
+    }, [getTrabalhadores]);
 
-    const data = search.length > 0
-        ? propostas.filter(proposta => proposta.oferta.titulo.toLowerCase().includes(search.toLowerCase()))
-        : propostas;
+
+    const loadingPage = () => {
+        if (propostas?.totalPages !== null && activePage < getTotalPage()) {
+            setActivePage(activePage + 1);
+        }
+    }
+
+    const getTotalPage = (): Number => {
+        return propostas?.totalPages || 0;
+    }
+
+    const getPropostasUrl = () => {
+        if (state.perfil == "TRABALHADOR") {
+            return 'propostas/trabalhadores';
+        }
+        return 'propostas/clientes';
+    }
 
     return (
-        <ScrollView contentContainerStyle={theme.scrollContainer}>
-            <SearchInput
-                placeholder="Titulo da Oferta"
-                search={search}
-                setSearch={setSearch}
-            />
+        <>
             {loading ? (<ActivityIndicator size="large" color={colors.primary} />) :
-                (data.map(proposta => <PropostaCard {...proposta} key={proposta.id} />))}
-        </ScrollView>
+                <PropostasList
+                    propostas={propostas?.content || []}
+                    loadingPage={loadingPage}
+                />
+            }
+        </>
     )
 }
 

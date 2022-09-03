@@ -32,13 +32,13 @@ const Trabalhadores: React.FC = () => {
     const [activePage, setActivePage] = useState(0);
 
 
-    const getOfertas = useCallback(() => {
+    const getTrabalhadores = useCallback(() => {
         const trabalhadoresData = trabalhadores?.content ?? [];
         const params = {
             size: 8,
             categorias: categoria?.id || 0,
             page: activePage,
-            titulo: search
+            nome: search
         };
         makePrivateRequest({ url: 'trabalhadores', params })
             .then(res => {
@@ -60,8 +60,8 @@ const Trabalhadores: React.FC = () => {
     };
 
     useEffect(() => {
-        getOfertas();
-    }, [getOfertas]);
+        getTrabalhadores();
+    }, [getTrabalhadores]);
 
     useEffect(() => {
         makeRequest({ url: 'categorias', params: { linesPerPage: 2 } })
