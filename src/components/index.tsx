@@ -5,3 +5,5 @@ export {default as SearchInput} from './SearchInput';
 export {default as CategoriaTag} from './CategoriaTag';
 export {default as TrabalhadorCard} from './TrabalhadorCard';
 export {default as PropostaCard} from './PropostaCard';
+export {default as OfertasList} from './OfertasList';
+export {default as CategoriasFilter} from './CategoriasFilter';

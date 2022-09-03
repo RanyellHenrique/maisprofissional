@@ -1,5 +1,15 @@
-import axios from 'axios';
+import axios, { Method } from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const BASE_URL = 'http://10.0.0.108:8080/';
+
+type RequestParams = {
+    method?: Method;
+    url: string;
+    data?: object | string;
+    params?: object;
+    headers?: object;
+}
 
 export const api = axios.create({
     baseURL: 'http://10.0.0.108:8080/'
@@ -94,4 +104,17 @@ export const createTrabalhador = async (data: object) => {
 
 export const createCliente = async (data: object) => {
     return api.post('/clientes', data);
+}
+
+export const makePrivateRequest = ({ method = 'GET', url, data, params }: RequestParams) => {
+    return makeRequest({method, url, data, params});
+}
+
+export const makeRequest = ({ method = 'GET', url, data, params }: RequestParams) => {
+    return axios({
+        method,
+        url: `${BASE_URL}${url}`,
+        data,
+        params
+    });
 }
