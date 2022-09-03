@@ -79,7 +79,7 @@ const TrabalhadoresStack = createNativeStackNavigator();
 const TrabalhadoresScreen: React.FC = () => {
     return (
         <TrabalhadoresStack.Navigator screenOptions={{ headerShown: false }}>
-            <TrabalhadoresStack.Screen name="Trabalhadores" component={Trabalhadores} />
+            <TrabalhadoresStack.Screen name="TrabalhadoresList" component={Trabalhadores} />
             <TrabalhadoresStack.Screen name="OfertaDetails" component={OfertaDetails} />
         </TrabalhadoresStack.Navigator>
     );

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ScrollView, ActivityIndicator } from 'react-native';
 import { SearchInput, TrabalhadorCard } from '../components';
+import { Categoria, Endereco } from '../pages/Ofertas';
 import { colors, theme } from '../styles';
 import { api } from '../services';
 
@@ -11,13 +12,9 @@ interface Trabalhador {
     categorias: Categoria[];
     descricao: string;
     telefone: string;
+    endereco: Endereco;
 }
 
-interface Categoria {
-    id: Number;
-    nome: string;
-    descricao: string;
-}
 
 const Trabalhadores: React.FC = () => {
 
