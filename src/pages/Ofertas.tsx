@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { ActivityIndicator, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import { CategoriasFilter, SearchInput, OfertasList } from '../components';
+import { CategoriasFilter, OfertasList } from '../components';
 import { colors, theme, text } from '../styles';
 import { makePrivateRequest, makeRequest } from '../services';
 import arrowRigth from '../assets/arrow.png';
