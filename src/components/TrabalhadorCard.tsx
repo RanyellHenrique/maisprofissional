@@ -26,7 +26,7 @@ const TrabalhadorCard: React.FC<TrabalhadorProps> = ({ id, nome, imgUrl = imagem
     return (
         <TouchableOpacity
             style={theme.ofertaCard}
-            onPress={() => navigation.navigate('OfertaDetails', { id })}
+            onPress={() => navigation.navigate('TrabalhadoresDetails', { id })}
         >
             <Image source={{ uri: imgUrl }} style={theme.ofertaImg} />
             <View style={theme.ofertaDescription}>

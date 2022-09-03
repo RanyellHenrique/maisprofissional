@@ -6,10 +6,11 @@ import { PropostaCard } from './index';
 type Props = {
     propostas: Proposta[];
     loadingPage: () => void;
+    listHeaderComponent: JSX.Element | null;
 }
 
 
-const PropostasList: React.FC<Props> = ({ propostas, loadingPage}) => {
+const PropostasList: React.FC<Props> = ({ propostas, loadingPage, listHeaderComponent}) => {
     return (
         <FlatList
             style={{ flex: 1, padding: '2%' }}
@@ -18,6 +19,7 @@ const PropostasList: React.FC<Props> = ({ propostas, loadingPage}) => {
             keyExtractor={(item) => String(item.id)}
             onEndReached={loadingPage}
             onEndReachedThreshold={0.1}
+            ListHeaderComponent={listHeaderComponent}
         />
     );
 }

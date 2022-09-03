@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
-import { ActivityIndicator, Text, View, TouchableOpacity, Image } from 'react-native';
+import { ActivityIndicator} from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { CategoriasFilter, OfertasList } from '../components';
-import { colors, theme, text } from '../styles';
+import { colors, theme } from '../styles';
+import { FloatingAction } from "react-native-floating-action";
 import { makePrivateRequest, makeRequest } from '../services';
-import arrowRigth from '../assets/arrow.png';
 import { UserContext } from '../context';
 
 
@@ -106,20 +106,6 @@ const Ofertas: React.FC = () => {
 
     return (
         <>
-            {state.perfil == "CLIENTE" &&
-                <TouchableOpacity
-                    style={theme.primaryButton}
-                    activeOpacity={0.8}
-                    onPress={() => navigation.navigate("OfertaForm", { screen: 'Ofertas' })}
-                >
-                    <Text style={text.primaryText}>
-                        CRIAR NOVA OFERTA
-                    </Text>
-                    <View style={theme.arrowContainer}>
-                        <Image source={arrowRigth} />
-                    </View>
-                </TouchableOpacity>
-            }
             {loading ? (<ActivityIndicator size="large" color={colors.primary} />) :
                 <OfertasList
                     ofertas={ofertas?.content || []}
@@ -140,6 +126,14 @@ const Ofertas: React.FC = () => {
                         </>
 
                     }
+                />
+            }
+            {state.perfil == "CLIENTE" &&
+                <FloatingAction
+                    color={colors.primary}
+                    showBackground={false}
+                    animated={false}
+                    onPressMain={() => navigation.navigate("OfertaForm", { screen: 'Ofertas' })}
                 />
             }
         </>

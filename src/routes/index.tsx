@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { HeaderText, NavBar } from '../components';
-import { Home, Ofertas, Login, OfertaDetails, Trabalhadores, OfertaForm, PropostaForm, Propostas, PropostaDetails, UsuarioForm } from '../pages';
+import { Home, Ofertas, Login, OfertaDetails, Trabalhadores, OfertaForm, PropostaForm, Propostas, PropostaDetails, UsuarioForm, TrabalhadoresDetails } from '../pages';
 import { colors } from '../styles';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -81,6 +81,7 @@ const TrabalhadoresScreen: React.FC = () => {
         <TrabalhadoresStack.Navigator screenOptions={{ headerShown: false }}>
             <TrabalhadoresStack.Screen name="TrabalhadoresList" component={Trabalhadores} />
             <TrabalhadoresStack.Screen name="OfertaDetails" component={OfertaDetails} />
+            <TrabalhadoresStack.Screen name="TrabalhadoresDetails" component={TrabalhadoresDetails} />
         </TrabalhadoresStack.Navigator>
     );
 }

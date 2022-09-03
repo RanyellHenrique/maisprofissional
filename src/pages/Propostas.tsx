@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { PropostasList } from '../components';
 import { ActivityIndicator } from 'react-native';
-import { colors } from '../styles';
+import { colors, theme } from '../styles';
 import { UserContext } from '../context';
 import { Oferta } from './Ofertas';
 import { makePrivateRequest } from '../services';
-
+import { Searchbar } from 'react-native-paper';
 
 export interface Proposta {
     id: number;
@@ -33,6 +33,7 @@ const Propostas: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [activePage, setActivePage] = useState(0);
     const { state } = useContext(UserContext);
+    const [search, setSearch] = useState("");
 
     const getTrabalhadores = useCallback(() => {
         const propostasData = propostas?.content ?? [];
@@ -49,20 +50,21 @@ const Propostas: React.FC = () => {
             })
             .catch(err => console.warn(err))
             .finally(() => setLoading(false));
-    }, [activePage]);
+    }, [activePage, search]);
 
-
-    const categoriaChange = () => {
-        setPropostas({
-            content: [],
-            totalPages: propostas?.totalPages ?? 0
-        });
-    };
 
     useEffect(() => {
         getTrabalhadores();
     }, [getTrabalhadores]);
 
+
+    const setSearchAndPage = (search: string) => {
+        setPropostas({
+            content: [],
+            totalPages: propostas?.totalPages ?? 0
+        });
+        setSearch(search);
+    }
 
     const loadingPage = () => {
         if (propostas?.totalPages !== null && activePage < getTotalPage()) {
@@ -87,6 +89,15 @@ const Propostas: React.FC = () => {
                 <PropostasList
                     propostas={propostas?.content || []}
                     loadingPage={loadingPage}
+                    listHeaderComponent={
+                        <Searchbar
+                                placeholder="Nome da oferta"
+                                onChangeText={setSearchAndPage}
+                                value={search}
+                                style={theme.inputContainer}
+                            />
+                    }
+
                 />
             }
         </>
