@@ -9,7 +9,9 @@ import {
     PropostaForm, Propostas,
     PropostaDetails, UsuarioForm,
     TrabalhadoresDetails,
-    PerfilDetails
+    PerfilDetails,
+    Categorias,
+    CategoriaForm
 } from '../pages';
 import { colors } from '../styles';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -45,6 +47,8 @@ const Routes: React.FC = () => {
                         iconName = focused ? 'md-construct' : 'md-construct';
                     } else if (route.name === 'Perfil') {
                         iconName = focused ? 'ios-person' : 'ios-person';
+                    } else if (route.name === 'Admin') {
+                        iconName = focused ? 'ios-person' : 'ios-person';
                     }
                     return <Ionicons name={iconName} size={size} color={color} />;
                 }
@@ -54,7 +58,13 @@ const Routes: React.FC = () => {
             <Tab.Screen name="Ofertas" component={OfertasScreen} />
             <Tab.Screen name="Trabalhadores" component={TrabalhadoresScreen} />
             {state.isLogado &&
-                <Tab.Screen name="Propostas" component={PropostasScreen} />
+                <>
+                    {
+                        state.perfil == "ADMIN" ?
+                        <Tab.Screen name="Admin" component={CategoriaScreen}/> : 
+                        <Tab.Screen name="Propostas" component={PropostasScreen} />
+                    }
+                </>
             }
         </Tab.Navigator>
     )
@@ -112,6 +122,16 @@ const UsuariosScreen: React.FC = () => {
 
             }
         </UsuarioStack.Navigator>
+    );
+}
+
+
+const CategoriaScreen: React.FC = () => {
+    return (
+        <PropostasStack.Navigator screenOptions={{ headerShown: false }}>
+            <PropostasStack.Screen name="CategoriasList" component={Categorias} />
+            <PropostasStack.Screen name="CategoriaForm" component={CategoriaForm} />
+        </PropostasStack.Navigator>
     );
 }
 

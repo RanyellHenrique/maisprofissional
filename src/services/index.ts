@@ -49,6 +49,17 @@ export const createProposta = async (data: object) => {
     return res;
 }
 
+export const createCategoria = async (data: object) => {
+    const authToken = await userToken();
+    const res = api.post('/categorias', data, {
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+        }
+    })
+    return res;
+}
+
+
 export const getPropostaByCliente = async () => {
     const authToken = await userToken();
     const res = api.get('/propostas/clientes', {

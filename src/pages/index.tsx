@@ -10,3 +10,6 @@ export { default as PropostaDetails } from './PropostaDetails';
 export { default as UsuarioForm } from './UsuarioForm';
 export { default as TrabalhadoresDetails } from './TrabalhadoresDetails';
 export { default as PerfilDetails } from './PerfilDetails';
+export { default as Categorias } from './Categorias';
+export { default as CategoriaForm } from './CategoriaForm';
+
