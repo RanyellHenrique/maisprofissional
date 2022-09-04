@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { CategoriasFilter, OfertasList } from '../components';
 import { colors, theme } from '../styles';
 import { FloatingAction } from "react-native-floating-action";
-import { makePrivateRequest, makeRequest } from '../services';
+import { makeRequest } from '../services';
 import { UserContext } from '../context';
 
 
@@ -59,7 +59,7 @@ const Ofertas: React.FC = () => {
             page: activePage,
             titulo: search
         };
-        makePrivateRequest({ url: 'ofertas', params })
+        makeRequest({ url: 'ofertas', params })
             .then(res => {
                 setOfertas({
                     totalPages: res.data.totalPages,

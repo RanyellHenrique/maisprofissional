@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { TrabalhadoresList, CategoriasFilter } from '../components';
 import { Searchbar } from 'react-native-paper';
-import { makePrivateRequest, makeRequest } from '../services';
+import { makeRequest } from '../services';
 import { Categoria, Endereco } from '../pages/Ofertas';
 import { colors, theme } from '../styles';
 
@@ -40,7 +40,7 @@ const Trabalhadores: React.FC = () => {
             page: activePage,
             nome: search
         };
-        makePrivateRequest({ url: 'trabalhadores', params })
+        makeRequest({ url: 'trabalhadores', params })
             .then(res => {
                 setTrabalhadores({
                     totalPages: res.data.totalPages,
