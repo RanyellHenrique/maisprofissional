@@ -86,7 +86,7 @@ const PerfilDetails: React.FC = () => {
                                 <>
                                 <Text style={text.ofertaDetailsName}>Categorias</Text>
                                     {perfil.categorias.map(cat =>
-                                        <Text style={text.ofertaSubTitulo}>{cat.nome}</Text>
+                                        <Text style={text.ofertaSubTitulo} key={cat.id}>{cat.nome}</Text>
                                     )}
                                 </>
                             }
