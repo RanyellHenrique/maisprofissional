@@ -9,3 +9,4 @@ export { default as Propostas } from './Propostas';
 export { default as PropostaDetails } from './PropostaDetails';
 export { default as UsuarioForm } from './UsuarioForm';
 export { default as TrabalhadoresDetails } from './TrabalhadoresDetails';
+export { default as PerfilDetails } from './PerfilDetails';

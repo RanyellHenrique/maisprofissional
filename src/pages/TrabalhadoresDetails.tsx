@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, ActivityIndicator, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { api } from '../services';
 import arrow from '../assets/leftArrow.png';
 import { colors, text, theme } from '../styles';
 import { useNavigation } from '@react-navigation/native';
 import HTMLView from 'react-native-htmlview';
-import { UserContext } from '../context';
-
 
 const imagem = 'https://www.monitoratec.com.br/blog/wp-content/uploads/2020/08/AdobeStock_310133736-740x416.jpeg';
 
@@ -22,7 +20,6 @@ const TrabalhadoresDetails: React.FC<Props> = ({ route: { params: { id } } }) =>
 
     const [loading, setLoading] = useState(false);
     const navigation = useNavigation();
-    const { state } = useContext(UserContext);
     const [trabalhador, setTrabalhador] = useState({
         id: null,
         nome: null,

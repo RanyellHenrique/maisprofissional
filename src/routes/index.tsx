@@ -1,6 +1,16 @@
 import React, { useContext } from 'react';
 import { HeaderText, NavBar } from '../components';
-import { Home, Ofertas, Login, OfertaDetails, Trabalhadores, OfertaForm, PropostaForm, Propostas, PropostaDetails, UsuarioForm, TrabalhadoresDetails } from '../pages';
+import {
+    Ofertas,
+    Login,
+    OfertaDetails,
+    Trabalhadores,
+    OfertaForm,
+    PropostaForm, Propostas,
+    PropostaDetails, UsuarioForm,
+    TrabalhadoresDetails,
+    PerfilDetails
+} from '../pages';
 import { colors } from '../styles';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -94,7 +104,7 @@ const UsuariosScreen: React.FC = () => {
     return (
         <UsuarioStack.Navigator screenOptions={{ headerShown: false }}>
             {state.isLogado ?
-                <UsuarioStack.Screen name="Home" component={Home} /> :
+                <UsuarioStack.Screen name="PerfilDetails" component={PerfilDetails} /> :
                 <>
                     <UsuarioStack.Screen name="Login" component={Login} />
                     <UsuarioStack.Screen name="UsuarioForm" component={UsuarioForm} />
